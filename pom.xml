@@ -61,13 +61,12 @@
 		</dependency>
 
 
-	
-   <dependency>
-     <groupId>org.springframework.data</groupId>
-     <artifactId>spring-data-jpa</artifactId>
-     <version>2.1.10.RELEASE</version>
-   </dependency>
- </dependencies>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>3.2.0</version>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
