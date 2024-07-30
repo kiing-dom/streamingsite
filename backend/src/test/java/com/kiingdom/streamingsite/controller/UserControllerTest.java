@@ -20,7 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.kiingdom.streamingsite.model.User;
-import com.kiingdom.streamingsite.service.UserService;
+import com.kiingdom.streamingsite.service.user.UserService;
 
 @SpringBootTest
 class UserControllerTest {
