@@ -1,10 +1,9 @@
-package com.kiingdom.streamingsite.service.implementation;
+package com.kiingdom.streamingsite.service.user;
 
 import org.springframework.stereotype.Service;
 
 import com.kiingdom.streamingsite.model.User;
 import com.kiingdom.streamingsite.repository.UserRepository;
-import com.kiingdom.streamingsite.service.UserService;
 
 import java.util.List;
 import java.util.Optional;

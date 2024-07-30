@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kiingdom.streamingsite.model.User;
-import com.kiingdom.streamingsite.service.UserService;
+import com.kiingdom.streamingsite.service.user.UserService;
 
 @RestController
 @RequestMapping("/api/users")

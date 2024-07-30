@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 import com.kiingdom.streamingsite.model.User;
 import com.kiingdom.streamingsite.repository.UserRepository;
-import com.kiingdom.streamingsite.service.implementation.UserServiceImpl;
+import com.kiingdom.streamingsite.service.user.UserServiceImpl;
 
 
 
