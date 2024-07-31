@@ -114,6 +114,7 @@
     </dependencies>
 
     <build>
+        <directory>target</directory>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

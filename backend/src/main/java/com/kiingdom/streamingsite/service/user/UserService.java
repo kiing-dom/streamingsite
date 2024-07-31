@@ -1,4 +1,4 @@
-package com.kiingdom.streamingsite.service;
+package com.kiingdom.streamingsite.service.user;
 import com.kiingdom.streamingsite.model.User;
 
 import java.util.List;
