@@ -13,10 +13,18 @@ import com.kiingdom.streamingsite.service.auth.register.RegisterService;
 @RequestMapping("/api/register")
 public class RegisterController {
     
-    private RegisterService registerService;
+    private final RegisterService registerService;
+
+    public RegisterController(RegisterService registerService) {
+        this.registerService = registerService;
+    }
 
     @PostMapping
     public ResponseEntity<String> registerUser(@RequestBody User user) {
-        return registerService.register(user);
+        try {
+            return registerService.register(user);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An error occured during registration");
+        }
     }
 }

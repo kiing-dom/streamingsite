@@ -13,7 +13,11 @@ import com.kiingdom.streamingsite.service.auth.login.LoginService;
 @RequestMapping("/api/login")
 public class LoginController {
     
-    private LoginService loginService;
+    private final LoginService loginService;
+
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
+    }
 
     @PostMapping
     public ResponseEntity<String> loginUser(@RequestBody User user) {

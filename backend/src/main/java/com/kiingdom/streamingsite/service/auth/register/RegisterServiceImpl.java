@@ -9,12 +9,20 @@ import com.kiingdom.streamingsite.repository.UserRepository;
 @Service
 public class RegisterServiceImpl implements RegisterService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public RegisterServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public ResponseEntity<String> register(User user) {
+        try{
         userRepository.save(user);
         return ResponseEntity.ok("User registered Successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An error occured while registering the user");
+        }
     }
     
 }
