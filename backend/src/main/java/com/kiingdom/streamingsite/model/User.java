@@ -14,7 +14,7 @@ import jakarta.validation.constraints.Email;
 
 
 @Entity
-@Table(name = "\"user\"")
+@Table(name = "users")
 
 public class User {
     
