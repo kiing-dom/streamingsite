@@ -19,7 +19,7 @@ public class LoginServiceImpl implements LoginService{
 
     @Override
     public ResponseEntity<String> login(User user) {
-        Optional<User> foundUser = userRepository.findByUsername(user.getUsername());
+        Optional<User> foundUser = userRepository.findByEmail(user.getEmail());
         if(foundUser.isPresent() && foundUser.get().getPassword().equals(user.getPassword())) {
             return ResponseEntity.ok("Login Successful");
         } else {
