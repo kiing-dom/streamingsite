@@ -43,6 +43,10 @@ public class User {
     @Column
     private String lastName;
 
+    @NotBlank
+    @Column
+    private String role;
+
     public Long getId() {
         return id;
     }
@@ -89,6 +93,14 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
 }
