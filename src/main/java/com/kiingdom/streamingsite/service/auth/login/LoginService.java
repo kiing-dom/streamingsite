@@ -7,5 +7,5 @@ import com.kiingdom.streamingsite.model.User;
 
 @Service
 public interface LoginService {
-    ResponseEntity<String> login(User user);
+    ResponseEntity<?> login(User user);
 }

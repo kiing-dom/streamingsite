@@ -1,5 +1,8 @@
 package com.kiingdom.streamingsite.service.auth.login;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,25 +27,25 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public ResponseEntity<String> login(User user) {
+    public ResponseEntity<?> login(User user) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            User authenticatedUser = userRepository.findByEmail(user.getEmail())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+            User authenticatedUser =  userRepository.findByEmail(user.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
             String role = authenticatedUser.getRole();
 
-            if ("ADMIN".equals(role)) {
-                return ResponseEntity.ok("Admin logged in successfully");
-            } else if ("USER".equals(role)) {
-                return ResponseEntity.ok("User logged in successfully");
-            } else {
-                return ResponseEntity.ok("Logged in successfully with unknown role");
-            }
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Login Successful");
+            response.put("role", role);
+            response.put("userId", authenticatedUser.getId());
+
+            return ResponseEntity.ok(response);
+            
 
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Invalid username or password");
