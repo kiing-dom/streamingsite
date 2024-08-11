@@ -19,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.kiingdom.streamingsite.controller.user.UserController;
 import com.kiingdom.streamingsite.model.User;
 import com.kiingdom.streamingsite.service.user.UserService;
 

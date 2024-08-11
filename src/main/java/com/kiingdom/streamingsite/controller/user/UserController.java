@@ -1,4 +1,4 @@
-package com.kiingdom.streamingsite.controller;
+package com.kiingdom.streamingsite.controller.user;
 
 import java.util.List;
 import java.util.Optional;
