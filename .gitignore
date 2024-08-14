@@ -5,7 +5,6 @@ target/
 !**/src/test/**/target/
 
 ### env variables ###
-backend/src/main/resources/env.properties
 src/main/resources/env.properties
 
 
