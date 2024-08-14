@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.http.HttpMethod;
 
 import java.util.Arrays;
 
@@ -22,6 +23,8 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
+    private static final String ADMIN = "ADMIN";
+    private static final String USER = "USER";
 
     public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -34,7 +37,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/login").permitAll()
-                        .requestMatchers("/api/users/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/users/**").hasAnyRole(USER, ADMIN)
+                        .requestMatchers(HttpMethod.GET, "/api/content/**").hasAnyRole(USER, ADMIN)
+                        .requestMatchers(HttpMethod.POST, "/api/content").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.PUT, "/api/content/**").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.DELETE, "/api/content/**").hasRole(ADMIN)
                         .anyRequest().authenticated())
                 .httpBasic(basic -> {
                 });
