@@ -19,6 +19,17 @@
         <junit.jupiter.version>5.8.2</junit.jupiter.version> <!-- Specify JUnit Jupiter version -->
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-elastictranscoder</artifactId>
+            <version>1.12.769</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>1.12.769</version>
+        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
@@ -73,12 +84,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>
