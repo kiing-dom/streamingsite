@@ -33,6 +33,7 @@ public class ContentServiceImpl implements ContentService {
 
         content.setVideoUrl(transcodedVideoKey);
         content.setThumbnailUrl(thumbnailKey);
+        content.setTranscodeJobId(jobId);
 
         Content savedContent = contentRepository.save(content);
 
