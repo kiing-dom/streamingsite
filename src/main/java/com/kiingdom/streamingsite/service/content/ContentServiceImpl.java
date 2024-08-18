@@ -1,26 +1,45 @@
 package com.kiingdom.streamingsite.service.content;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kiingdom.streamingsite.model.content.Content;
 import com.kiingdom.streamingsite.model.content.DifficultyLevel;
 import com.kiingdom.streamingsite.repository.ContentRepository;
+import com.kiingdom.streamingsite.service.aws.AWSService;
 
 @Service
 public class ContentServiceImpl implements ContentService {
 
     private final ContentRepository contentRepository;
+    private final AWSService awsService;
 
-    public ContentServiceImpl(ContentRepository contentRepository) {
+    public ContentServiceImpl(ContentRepository contentRepository, AWSService awsService) {
         this.contentRepository = contentRepository;
+        this.awsService = awsService;
     }
 
     @Override
-    public Content saveContent(Content content) {
-        return contentRepository.save(content);
+    public Content saveContent(Content content, MultipartFile videoFile, MultipartFile thumbnailFile) throws IOException {
+        String videoKey = awsService.uploadFile(videoFile);
+        String thumbnailKey = awsService.uploadFile(thumbnailFile);
+
+        String transcodedVideoKey = "transcoded-" + videoKey;
+        String jobId = awsService.transcodeVideo(videoKey, transcodedVideoKey);
+
+        content.setVideoUrl(transcodedVideoKey);
+        content.setThumbnailUrl(thumbnailKey);
+
+        Content savedContent = contentRepository.save(content);
+
+        awsService.invalidateCloudFrontCache(transcodedVideoKey);
+        awsService.invalidateCloudFrontCache(thumbnailKey);
+        
+        return savedContent;
     }
 
     @Override

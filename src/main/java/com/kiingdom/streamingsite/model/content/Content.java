@@ -22,6 +22,9 @@ public class Content {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "transcode_job_id")
+    private String transcodeJobId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
@@ -70,6 +73,14 @@ public class Content {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTranscodeJobId() {
+        return transcodeJobId;
+    }
+
+    public void setTranscodeJobId(String transcodeJobId) {
+        this.transcodeJobId = transcodeJobId;
     }
 
     public Category getCategory() {
