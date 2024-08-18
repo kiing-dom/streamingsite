@@ -82,5 +82,4 @@ public class ContentServiceImpl implements ContentService {
     public List<Content> searchContentByTitle(String title) {
         return contentRepository.findByTitleContainingIgnoreCase(title);
     }
-
 }
