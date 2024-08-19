@@ -1,6 +1,7 @@
 package com.kiingdom.streamingsite.service.content;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,8 @@ public class ContentServiceImpl implements ContentService {
         content.setVideoUrl(transcodedVideoKey);
         content.setThumbnailUrl(thumbnailKey);
         content.setTranscodeJobId(jobId);
+
+        content.setDateAdded(LocalDateTime.now());
 
         Content savedContent = contentRepository.save(content);
 
