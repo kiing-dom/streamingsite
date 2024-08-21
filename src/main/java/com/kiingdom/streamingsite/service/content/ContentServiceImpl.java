@@ -13,6 +13,8 @@ import com.kiingdom.streamingsite.model.content.DifficultyLevel;
 import com.kiingdom.streamingsite.repository.ContentRepository;
 import com.kiingdom.streamingsite.service.aws.AWSService;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class ContentServiceImpl implements ContentService {
 
@@ -25,7 +27,8 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public Content saveContent(Content content, MultipartFile videoFile, MultipartFile thumbnailFile) throws IOException {
+    public Content saveContent(Content content, MultipartFile videoFile, MultipartFile thumbnailFile)
+            throws IOException {
         String videoKey = awsService.uploadFile(videoFile);
         String thumbnailKey = awsService.uploadFile(thumbnailFile);
 
@@ -42,7 +45,7 @@ public class ContentServiceImpl implements ContentService {
 
         awsService.invalidateCloudFrontCache(transcodedVideoKey);
         awsService.invalidateCloudFrontCache(thumbnailKey);
-        
+
         return savedContent;
     }
 
@@ -84,5 +87,10 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public List<Content> searchContentByTitle(String title) {
         return contentRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Content> findAllWithCategory() {
+        return contentRepository.findAll();
     }
 }
