@@ -50,6 +50,24 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    public void deleteContent(Long id) {
+        Optional<Content> contentOpt = contentRepository.findById(id);
+
+        if (contentOpt.isPresent()) {
+            Content content = contentOpt.get();
+
+            awsService.deleteFile(content.getVideoUrl());
+
+            String originalVideoKey = content.getVideoUrl().replace("transcoded-", "");
+            awsService.deleteFile(originalVideoKey);
+
+            awsService.deleteFile(content.getThumbnailUrl());
+
+            contentRepository.deleteById(id);
+        }
+    }
+
+    @Override
     public Optional<Content> getContentById(Long id) {
         return contentRepository.findById(id);
     }
@@ -62,21 +80,6 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public Content updateContent(Content content) {
         return contentRepository.save(content);
-    }
-
-    @Override
-    public void deleteContent(Long id) {
-
-        Optional<Content> contentOpt = contentRepository.findById(id);
-
-        if (contentOpt.isPresent()) {
-            Content content = contentOpt.get();
-
-            awsService.deleteFile(content.getVideoUrl());
-            awsService.deleteFile(content.getThumbnailUrl());
-        }
-
-        contentRepository.deleteById(id);
     }
 
     @Override
