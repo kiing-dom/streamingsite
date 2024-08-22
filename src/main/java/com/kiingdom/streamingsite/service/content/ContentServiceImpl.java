@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kiingdom.streamingsite.model.content.Content;
 import com.kiingdom.streamingsite.model.content.DifficultyLevel;
 import com.kiingdom.streamingsite.repository.ContentRepository;
-import com.kiingdom.streamingsite.service.aws.AWSService;
+import com.kiingdom.streamingsite.service.aws.AWSServiceImpl;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class ContentServiceImpl implements ContentService {
 
     private final ContentRepository contentRepository;
-    private final AWSService awsService;
+    private final AWSServiceImpl awsService;
 
-    public ContentServiceImpl(ContentRepository contentRepository, AWSService awsService) {
+    public ContentServiceImpl(ContentRepository contentRepository, AWSServiceImpl awsService) {
         this.contentRepository = contentRepository;
         this.awsService = awsService;
     }
@@ -66,6 +66,16 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public void deleteContent(Long id) {
+
+        Optional<Content> contentOpt = contentRepository.findById(id);
+
+        if (contentOpt.isPresent()) {
+            Content content = contentOpt.get();
+
+            awsService.deleteFile(content.getVideoUrl());
+            awsService.deleteFile(content.getThumbnailUrl());
+        }
+
         contentRepository.deleteById(id);
     }
 
