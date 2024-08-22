@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,9 @@ public class ContentServiceImpl implements ContentService {
     private final ContentRepository contentRepository;
     private final AWSServiceImpl awsService;
 
+    @Value("${aws.base-url}")
+    private String baseUrl;
+
     public ContentServiceImpl(ContentRepository contentRepository, AWSServiceImpl awsService) {
         this.contentRepository = contentRepository;
         this.awsService = awsService;
@@ -35,8 +39,8 @@ public class ContentServiceImpl implements ContentService {
         String transcodedVideoKey = "transcoded-" + videoKey;
         String jobId = awsService.transcodeVideo(videoKey, transcodedVideoKey);
 
-        content.setVideoUrl(transcodedVideoKey);
-        content.setThumbnailUrl(thumbnailKey);
+        content.setVideoUrl(baseUrl + transcodedVideoKey);
+        content.setThumbnailUrl(baseUrl + thumbnailKey);
         content.setTranscodeJobId(jobId);
 
         content.setDateAdded(LocalDateTime.now());
@@ -56,12 +60,12 @@ public class ContentServiceImpl implements ContentService {
         if (contentOpt.isPresent()) {
             Content content = contentOpt.get();
 
-            awsService.deleteFile(content.getVideoUrl());
+            awsService.deleteFile(content.getVideoUrl().replace(baseUrl, ""));
 
-            String originalVideoKey = content.getVideoUrl().replace("transcoded-", "");
+            String originalVideoKey = content.getVideoUrl().replace(baseUrl, "").replace("transcoded-", "");
             awsService.deleteFile(originalVideoKey);
 
-            awsService.deleteFile(content.getThumbnailUrl());
+            awsService.deleteFile(content.getThumbnailUrl().replace(baseUrl, ""));
 
             contentRepository.deleteById(id);
         }
