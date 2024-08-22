@@ -29,7 +29,7 @@ public class Content {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "content_tags")
     @Column(name = "tag")
     private Set<String> tags;
